@@ -1,0 +1,21 @@
+# Quick scene modes (Inspector)
+
+## After importing your Menagerie arm (Kinova Gen3)
+- ArmAgent: names default to joint_1..joint_7 / bracelet_link (check Console for "not found")
+- ArmJointController: homeTargets + jointRanges already set for Gen3 (match train_controller.py)
+
+## Collect rollout
+- ArmJointController: emitActions=true (random joint goals)
+- Disable: WorldModelController, IkGoalProvider
+- Enable: RolloutRecorder
+- Optional: disable WorldModelDriver
+
+## Check controller on random goals (Step 3)
+- Enable WorldModelController (controller.json); IkGoalProvider disabled
+- Disable RolloutRecorder
+
+## Live tracking (after training)
+- Create Sphere "TrackingTarget" (remove its collider) -> wire into IkGoalProvider.target
+- Enable IkGoalProvider + WorldModelController (controller.json)
+- ArmJointController: emitActions=false (WorldModelController does this automatically; IK turns off resampleGoals)
+- Disable RolloutRecorder
